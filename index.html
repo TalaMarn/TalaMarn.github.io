@@ -125,26 +125,25 @@
 
     <!-- The Ask -->
     <section class="ask">
-      <h3>So... I have one question.</h3>
-      <p style="margin:0 0 8px">Will you be my girlfriend?</p>
+      <h3>So, what would you wish for your birthday?</h3>
+      <p style="margin:0 0 8px">If you want to wish for something special, </p>
 
       <div class="choice-buttons">
-        <button class="btn" id="yesBtn">Yes 💕</button>
-        <button class="btn-ghost" id="noBtn">I need a moment 😊</button>
+        <button class="btn" id="yesBtn">Make a wish 💕</button>
       </div>
 
       <div id="formWrap" style="display:none;margin-top:12px;width:100%;align-items:center;">
         <form id="askForm">
-          <input type="text" id="fromName" placeholder="Your name (optional)" />
+          <input type="text" id="fromName" placeholder="Describe You Wish" />
           <!-- We'll capture her answer with a hidden field -->
           <input type="hidden" id="answer" name="answer" />
           <div class="note">By submitting, your choice will be sent to the person who made this site.</div>
-          <button class="btn" type="submit">Send my answer</button>
+          <button class="btn" type="submit">Send my wish!</button>
         </form>
       </div>
 
       <div id="thanks" style="display:none;margin-top:14px;text-align:center">
-        <strong>Thank you — message sent. 🌸</strong>
+        <strong>Love you — message sent. 🌸</strong>
       </div>
 
     </section>
@@ -157,7 +156,7 @@
 
   <!-- optional lo-fi audio: replace src with your file path. -->
   <audio id="bgMusic" loop preload="auto">
-    <source src="audio/lofi.mp3" type="audio/mpeg">
+    <source src="Lofi.mp3" type="audio/mpeg">
     <!-- If you want to use an online audio host, replace the src above with that link. -->
   </audio>
   <div style="position:fixed;left:14px;bottom:14px;display:flex;gap:8px;align-items:center">
