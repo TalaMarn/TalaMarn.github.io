@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A Year With You — Phue</title>
+  <title>Make a Wish — A Year With You</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@
     /* top navigation */
     .top-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-around;padding:10px 0;background:var(--ivory);box-shadow:0 2px 5px rgba(0,0,0,0.05);z-index:1000;}
     .top-nav a{color:var(--accent);text-decoration:none;font-weight:600;padding:6px 10px;border-radius:8px;}
+    .next-btn{background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(255,155,179,0.18)}
 
     /* Landing */
     .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:radial-gradient(circle at 10% 10%, rgba(255,217,230,0.6), transparent 10%), linear-gradient(180deg,#fff,#fff7fb);position:relative;overflow:hidden}
@@ -79,22 +80,36 @@
     <a href="ask.html">🎁 Wish</a>
   </nav>
 
-  <div class="hero">
-    <div class="container">
-      <h1>Happy Birthday, Phue 🌸</h1>
-      <p>A little website that holds our year — made especially for you.</p>
-      <button class="btn" id="startBtn">Start the Journey 💕</button>
-      <p class="small">April 8 — today's your day ✨</p>
-    </div>
+  <div class="container">
+    <section class="ask">
+      <h3>So, what would you wish for your birthday?</h3>
+      <p style="margin:0 0 8px">If you want to wish for something special, </p>
 
-    <!-- decorative hearts -->
-    <div class="particle" style="top:10%;left:8%"><div class="heart"></div></div>
-    <div class="particle" style="top:30%;right:10%;transform:scale(1.6);opacity:0.08"><div class="heart"></div></div>
-    <div class="particle" style="bottom:10%;left:20%;transform:scale(1.2);opacity:0.07"><div class="heart"></div></div>
+      <div class="choice-buttons">
+        <button class="btn" id="yesBtn">Make a wish 💕</button>
+      </div>
+
+      <div id="formWrap" style="display:none;margin-top:12px;width:100%;align-items:center;">
+        <form id="askForm">
+          <input type="text" id="fromName" placeholder="Describe You Wish" />
+          <!-- We'll capture her answer with a hidden field -->
+          <input type="hidden" id="answer" name="answer" />
+          <div class="note">By submitting, your choice will be sent to the person who made this site.</div>
+          <button class="btn" type="submit">Send my wish!</button>
+        </form>
+      </div>
+
+      <div id="thanks" style="display:none;margin-top:14px;text-align:center">
+        <strong>Love you — message sent. 🌸</strong>
+      </div>
+
+    </section>
+    <!-- Next button removed on final page -->
   </div>
 
-  <!-- sections have moved to their own pages -->
-
+  <footer>
+    <div>Made with ❤️ — a little surprise for Phue's birthday (April 8)</div>
+  </footer>
 
   <!-- optional lo-fi audio: replace src with your file path. -->
   <audio id="bgMusic" loop preload="auto">
@@ -117,12 +132,7 @@
     if(startBtnEl){
       startBtnEl.addEventListener('click', ()=>{
         const galleryEl = document.getElementById('gallery');
-        if(galleryEl) {
-          galleryEl.scrollIntoView({behavior:'smooth'});
-        } else {
-          // gallery moved to its own page
-          window.location.href = 'gallery.html';
-        }
+        if(galleryEl) galleryEl.scrollIntoView({behavior:'smooth'});
         playMusicIfAutoAllowed();
       });
     }
@@ -131,11 +141,13 @@
     const music = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
     let musicPlaying = false;
-    musicToggle.addEventListener('click', ()=>{
-      if(musicPlaying){ music.pause(); musicPlaying=false; musicToggle.textContent='Play Music' }
-      else{ music.play().catch(()=>{}); musicPlaying=true; musicToggle.textContent='Pause Music' }
-    });
-    function playMusicIfAutoAllowed(){ music.play().then(()=>{musicPlaying=true;musicToggle.textContent='Pause Music'}).catch(()=>{}); }
+    if(musicToggle){
+      musicToggle.addEventListener('click', ()=>{
+        if(musicPlaying){ music.pause(); musicPlaying=false; musicToggle.textContent='Play Music' }
+        else{ music.play().catch(()=>{}); musicPlaying=true; musicToggle.textContent='Pause Music' }
+      });
+    }
+    function playMusicIfAutoAllowed(){ if(music) music.play().then(()=>{musicPlaying=true;musicToggle.textContent='Pause Music'}).catch(()=>{}); }
 
     // Ask buttons
     const yesBtn = document.getElementById('yesBtn');
@@ -155,7 +167,7 @@
         showForm();
       });
     }
-    function showForm(){ formWrap.style.display='flex'; formWrap.scrollIntoView({behavior:'smooth'}); }
+    function showForm(){ if(formWrap) { formWrap.style.display='flex'; formWrap.scrollIntoView({behavior:'smooth'}); } }
 
     // --- Email sending (EmailJS) ---
     // IMPORTANT: Sign up at https://www.emailjs.com and create a service + template.
@@ -304,8 +316,7 @@
     service Id = service_22zpu9x
     template id = template_u1syhmg
     */
+    // Next button removed on final page — no handler needed
   </script>
-  <!-- end of body sections -->
 </body>
 </html>
-

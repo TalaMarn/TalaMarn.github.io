@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A Year With You — Phue</title>
+  <title>Gallery — A Year With You</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@
     /* top navigation */
     .top-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-around;padding:10px 0;background:var(--ivory);box-shadow:0 2px 5px rgba(0,0,0,0.05);z-index:1000;}
     .top-nav a{color:var(--accent);text-decoration:none;font-weight:600;padding:6px 10px;border-radius:8px;}
+    .next-btn{background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(255,155,179,0.18)}
 
     /* Landing */
     .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;background:radial-gradient(circle at 10% 10%, rgba(255,217,230,0.6), transparent 10%), linear-gradient(180deg,#fff,#fff7fb);position:relative;overflow:hidden}
@@ -79,22 +80,43 @@
     <a href="ask.html">🎁 Wish</a>
   </nav>
 
-  <div class="hero">
-    <div class="container">
-      <h1>Happy Birthday, Phue 🌸</h1>
-      <p>A little website that holds our year — made especially for you.</p>
-      <button class="btn" id="startBtn">Start the Journey 💕</button>
-      <p class="small">April 8 — today's your day ✨</p>
-    </div>
+  <div class="container">
+    <section class="gallery" id="gallery">
+      <h2 style="font-family:'Great Vibes',cursive;font-size:34px;margin:4px 0">Our Year in Moments</h2>
+      <p class="small">Swipe or scroll — each photo holds a memory.</p>
 
-    <!-- decorative hearts -->
-    <div class="particle" style="top:10%;left:8%"><div class="heart"></div></div>
-    <div class="particle" style="top:30%;right:10%;transform:scale(1.6);opacity:0.08"><div class="heart"></div></div>
-    <div class="particle" style="bottom:10%;left:20%;transform:scale(1.2);opacity:0.07"><div class="heart"></div></div>
+      <div class="album" id="album">
+        <!-- Replace the src values with your own photos. Add more .photo blocks if you like. -->
+        <div class="photo">
+          <img src="images/photo1.jpg" alt="photo 1">
+          <div class="caption">That day we couldn't stop laughing</div>
+        </div>
+        <div class="photo">
+          <img src="images/photo2.jpg" alt="photo 2">
+          <div class="caption">A little rainy-day adventure</div>
+        </div>
+        <div class="photo">
+          <img src="images/photo3.jpg" alt="photo 3">
+          <div class="caption">When time felt slow and perfect</div>
+        </div>
+        <div class="photo">
+          <img src="images/photo4.jpg" alt="photo 4">
+          <div class="caption">Your smile lit up everything</div>
+        </div>
+        <div class="photo">
+          <img src="images/photo5.jpg" alt="photo 5">
+          <div class="caption">A quiet moment just for us</div>
+        </div>
+      </div>
+    </section>
+    <div style="text-align:right;margin-top:18px">
+      <button class="next-btn" id="nextBtn">Next →</button>
+    </div>
   </div>
 
-  <!-- sections have moved to their own pages -->
-
+  <footer>
+    <div>Made with ❤️ — a little surprise for Phue's birthday (April 8)</div>
+  </footer>
 
   <!-- optional lo-fi audio: replace src with your file path. -->
   <audio id="bgMusic" loop preload="auto">
@@ -117,12 +139,7 @@
     if(startBtnEl){
       startBtnEl.addEventListener('click', ()=>{
         const galleryEl = document.getElementById('gallery');
-        if(galleryEl) {
-          galleryEl.scrollIntoView({behavior:'smooth'});
-        } else {
-          // gallery moved to its own page
-          window.location.href = 'gallery.html';
-        }
+        if(galleryEl) galleryEl.scrollIntoView({behavior:'smooth'});
         playMusicIfAutoAllowed();
       });
     }
@@ -131,11 +148,13 @@
     const music = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
     let musicPlaying = false;
-    musicToggle.addEventListener('click', ()=>{
-      if(musicPlaying){ music.pause(); musicPlaying=false; musicToggle.textContent='Play Music' }
-      else{ music.play().catch(()=>{}); musicPlaying=true; musicToggle.textContent='Pause Music' }
-    });
-    function playMusicIfAutoAllowed(){ music.play().then(()=>{musicPlaying=true;musicToggle.textContent='Pause Music'}).catch(()=>{}); }
+    if(musicToggle){
+      musicToggle.addEventListener('click', ()=>{
+        if(musicPlaying){ music.pause(); musicPlaying=false; musicToggle.textContent='Play Music' }
+        else{ music.play().catch(()=>{}); musicPlaying=true; musicToggle.textContent='Pause Music' }
+      });
+    }
+    function playMusicIfAutoAllowed(){ if(music) music.play().then(()=>{musicPlaying=true;musicToggle.textContent='Pause Music'}).catch(()=>{}); }
 
     // Ask buttons
     const yesBtn = document.getElementById('yesBtn');
@@ -155,7 +174,7 @@
         showForm();
       });
     }
-    function showForm(){ formWrap.style.display='flex'; formWrap.scrollIntoView({behavior:'smooth'}); }
+    function showForm(){ if(formWrap) { formWrap.style.display='flex'; formWrap.scrollIntoView({behavior:'smooth'}); } }
 
     // --- Email sending (EmailJS) ---
     // IMPORTANT: Sign up at https://www.emailjs.com and create a service + template.
@@ -214,58 +233,61 @@
       }catch(e){ console.warn('EmailJS init error:', e); }
     })();
 
-    document.getElementById('askForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const fromName = document.getElementById('fromName').value || 'Phue (site visitor)';
-      const answer = document.getElementById('answer').value || 'No answer';
+    const askFormEl = document.getElementById('askForm');
+    if(askFormEl){
+      askFormEl.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const fromName = document.getElementById('fromName').value || 'Phue (site visitor)';
+        const answer = document.getElementById('answer').value || 'No answer';
 
-      // Template parameters you'll send to EmailJS
-      const templateParams = {
-        to_name: 'YOUR_NAME_HERE',
-        from_name: fromName,
-        answer_text: answer,
-        date: new Date().toLocaleString(),
-      };
+        // Template parameters you'll send to EmailJS
+        const templateParams = {
+          to_name: 'YOUR_NAME_HERE',
+          from_name: fromName,
+          answer_text: answer,
+          date: new Date().toLocaleString(),
+        };
 
-      // Replace these with IDs from your EmailJS account
-      const SERVICE_ID = 'service_22zpu9x';
-      const TEMPLATE_ID = 'template_u1syhmg';
+        // Replace these with IDs from your EmailJS account
+        const SERVICE_ID = 'service_22zpu9x';
+        const TEMPLATE_ID = 'template_u1syhmg';
 
-      // Ensure EmailJS SDK is available (try to load if missing)
-      if(!window.emailjs){
-        console.log('EmailJS not present — attempting to load SDK dynamically.');
-        const loaded = await ensureEmailJs();
-        if(!loaded || !window.emailjs){
-          alert('EmailJS SDK not loaded. Check network or try opening the page from a server (not file://). See console for details.');
-          console.warn('EmailJS SDK not loaded after attempts. Tried dynamic fallbacks.');
+        // Ensure EmailJS SDK is available (try to load if missing)
+        if(!window.emailjs){
+          console.log('EmailJS not present — attempting to load SDK dynamically.');
+          const loaded = await ensureEmailJs();
+          if(!loaded || !window.emailjs){
+            alert('EmailJS SDK not loaded. Check network or try opening the page from a server (not file://). See console for details.');
+            console.warn('EmailJS SDK not loaded after attempts. Tried dynamic fallbacks.');
+            return;
+          }
+        }
+
+        // Initialize if not already done
+        try{
+          if(EMAILJS_USER_ID && !EMAILJS_USER_ID.includes('YOUR') && !EMAILJS_USER_ID.startsWith('service_')){
+            emailjs.init(EMAILJS_USER_ID);
+          }
+        }catch(e){ console.warn('EmailJS init-on-send failed:', e); }
+        if(!SERVICE_ID || !TEMPLATE_ID || SERVICE_ID.includes('YOUR') || TEMPLATE_ID.includes('YOUR')){
+          alert('EmailJS not configured. Replace SERVICE_ID and TEMPLATE_ID in birthday.html with your EmailJS IDs.');
+          console.warn('EmailJS placeholders detected — replace SERVICE_ID and TEMPLATE_ID with real IDs from your EmailJS account.');
           return;
         }
-      }
 
-      // Initialize if not already done
-      try{
-        if(EMAILJS_USER_ID && !EMAILJS_USER_ID.includes('YOUR') && !EMAILJS_USER_ID.startsWith('service_')){
-          emailjs.init(EMAILJS_USER_ID);
-        }
-      }catch(e){ console.warn('EmailJS init-on-send failed:', e); }
-      if(!SERVICE_ID || !TEMPLATE_ID || SERVICE_ID.includes('YOUR') || TEMPLATE_ID.includes('YOUR')){
-        alert('EmailJS not configured. Replace SERVICE_ID and TEMPLATE_ID in birthday.html with your EmailJS IDs.');
-        console.warn('EmailJS placeholders detected — replace SERVICE_ID and TEMPLATE_ID with real IDs from your EmailJS account.');
-        return;
-      }
+        console.log('Sending email using EmailJS', { SERVICE_ID, TEMPLATE_ID, templateParams });
 
-      console.log('Sending email using EmailJS', { SERVICE_ID, TEMPLATE_ID, templateParams });
-
-      emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-        .then(function(){
-          showThanks();
-          fireConfetti();
-          console.log('EmailJS send succeeded');
-        }).catch(function(err){
-          console.error('Email error:', err);
-          alert('Sorry — something went wrong sending your answer. See console for details.');
-        });
-    });
+        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
+          .then(function(){
+            showThanks();
+            fireConfetti();
+            console.log('EmailJS send succeeded');
+          }).catch(function(err){
+            console.error('Email error:', err);
+            alert('Sorry — something went wrong sending your answer. See console for details.');
+          });
+      });
+    }
 
     function showThanks(){ document.getElementById('thanks').style.display='block'; }
 
@@ -284,6 +306,10 @@
 
     // --- small enhancement: lazy image loading ---
     document.querySelectorAll('.photo img').forEach(img=>{ img.loading='lazy'; });
+
+    // Next button (gallery -> message)
+    const nextBtn = document.getElementById('nextBtn');
+    if(nextBtn){ nextBtn.addEventListener('click', ()=>{ window.location.href='message.html'; }); }
 
     // --- Helpful notes for you (site owner) ---
     /*
@@ -305,7 +331,5 @@
     template id = template_u1syhmg
     */
   </script>
-  <!-- end of body sections -->
 </body>
 </html>
-
