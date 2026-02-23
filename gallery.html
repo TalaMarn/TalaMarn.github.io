@@ -18,8 +18,8 @@
       --accent: #ff9bb3;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;background:linear-gradient(180deg,var(--ivory),#fff7fb);color:var(--text);padding-top:60px;}
-    .container{max-width:900px;margin:0 auto;padding:40px 20px}
+    html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;background:var(--ivory);color:var(--text);padding-top:10px;}
+    .container{max-width:900px;margin:0 auto;padding:20px 20px}
     /* top navigation */
     .top-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-around;padding:10px 0;background:var(--ivory);box-shadow:0 2px 5px rgba(0,0,0,0.05);z-index:1000;}
     .top-nav a{color:var(--accent);text-decoration:none;font-weight:600;padding:6px 10px;border-radius:8px;}
@@ -40,7 +40,8 @@
     .heart:after{left:12px;top:0}
 
     /* Gallery */
-    .gallery{padding:60px 0}
+    /* reduce top padding so gallery sits closer to the nav */
+    .gallery{padding:14px 0}
     .album{display:flex;gap:18px;overflow:auto;padding-bottom:8px}
     .photo{min-width:320px;height:480px;border-radius:14px;background:#f8dfea;flex:0 0 320px;position:relative;box-shadow:0 12px 30px rgba(0,0,0,0.06);overflow:hidden}
     .photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -74,7 +75,6 @@
 </head>
 <body>
   <nav class="top-nav">
-    <a href="index.html">🏠 Home</a>
     <a href="gallery.html">📷 Gallery</a>
     <a href="message.html">💌 Message</a>
     <a href="ask.html">🎁 Wish</a>
