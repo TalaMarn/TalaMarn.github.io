@@ -123,13 +123,55 @@
     const music = document.getElementById('bgMusic');
     const musicToggle = document.getElementById('musicToggle');
     let musicPlaying = false;
-    if(musicToggle){
-      musicToggle.addEventListener('click', ()=>{
-        if(musicPlaying){ music.pause(); musicPlaying=false; musicToggle.textContent='Play Music' }
-        else{ music.play().catch(()=>{}); musicPlaying=true; musicToggle.textContent='Pause Music' }
+
+    // restore saved state on load
+    window.addEventListener('DOMContentLoaded', () => {
+      if (music) {
+        const savedTime = parseFloat(localStorage.getItem('bgMusicTime'));
+        if (!isNaN(savedTime)) music.currentTime = savedTime;
+        const savedPlaying = localStorage.getItem('bgMusicPlaying') === 'true';
+        if (savedPlaying) {
+          music.play().then(() => {
+            musicPlaying = true;
+            if (musicToggle) musicToggle.textContent = 'Pause Music';
+          }).catch(() => {});
+        }
+      }
+    });
+
+    if (musicToggle) {
+      musicToggle.addEventListener('click', () => {
+        if (musicPlaying) {
+          music.pause();
+          musicPlaying = false;
+          musicToggle.textContent = 'Play Music';
+        } else {
+          music.play().catch(() => {});
+          musicPlaying = true;
+          musicToggle.textContent = 'Pause Music';
+        }
+        localStorage.setItem('bgMusicPlaying', musicPlaying);
       });
     }
-    function playMusicIfAutoAllowed(){ if(music) music.play().then(()=>{musicPlaying=true;musicToggle.textContent='Pause Music'}).catch(()=>{}); }
+
+    function playMusicIfAutoAllowed() {
+      if (music) {
+        music.play().then(() => {
+          musicPlaying = true;
+          if (musicToggle) musicToggle.textContent = 'Pause Music';
+          localStorage.setItem('bgMusicPlaying', true);
+        }).catch(() => {});
+      }
+    }
+
+    if (music) {
+      music.addEventListener('timeupdate', () => {
+        localStorage.setItem('bgMusicTime', music.currentTime);
+      });
+      window.addEventListener('beforeunload', () => {
+        localStorage.setItem('bgMusicTime', music.currentTime);
+      });
+    }
 
     // Ask buttons
     const yesBtn = document.getElementById('yesBtn');
