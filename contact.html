@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery | Mon National Students Association</title>
+    <title>Contact | Mon National Students Association</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -38,8 +38,8 @@
             <a href="about.html">About</a>
             <a href="events.html">Events</a>
             <a href="announcements.html">Announcements</a>
-            <a class="active" href="gallery.html">Gallery</a>
-            <a href="contact.html">Contact</a>
+            <a href="gallery.html">Gallery</a>
+            <a class="active" href="contact.html">Contact</a>
           </nav>
         </div>
       </header>
@@ -47,35 +47,50 @@
       <main>
         <section class="page-hero">
           <div class="container">
-            <p class="eyebrow">Gallery</p>
-            <h1>Turn student activity into a living visual story.</h1>
+            <p class="eyebrow">Contact</p>
+            <h1>
+              Make it easy for students, supporters, and visitors to reach MNSA.
+            </h1>
             <p>
-              These cards can later be replaced with real event photos, posters,
-              and campus memories.
+              This page works well for contact details, social links, and a
+              simple public inquiry form.
             </p>
           </div>
         </section>
 
         <section class="section">
-          <div class="container gallery-grid">
-            <article class="gallery-card accent-one">
-              <span>Cultural Celebration</span>
+          <div class="container contact-layout">
+            <article class="info-card">
+              <h2>Contact Information</h2>
+              <p>Email: mnsa@example.com</p>
+              <p>Phone: +95 9 000 000 000</p>
+              <p>Address: Your college campus or association office location</p>
+              <div class="social-row">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Telegram</a>
+              </div>
             </article>
-            <article class="gallery-card accent-two">
-              <span>Leadership Workshop</span>
-            </article>
-            <article class="gallery-card accent-three">
-              <span>Welcome Gathering</span>
-            </article>
-            <article class="gallery-card accent-four">
-              <span>Volunteer Outreach</span>
-            </article>
-            <article class="gallery-card accent-five">
-              <span>Committee Session</span>
-            </article>
-            <article class="gallery-card accent-six">
-              <span>Campus Moments</span>
-            </article>
+            <form class="contact-form">
+              <label>
+                Name
+                <input type="text" placeholder="Your name" />
+              </label>
+              <label>
+                Email
+                <input type="email" placeholder="Your email address" />
+              </label>
+              <label>
+                Message
+                <textarea
+                  rows="5"
+                  placeholder="Write your message here"
+                ></textarea>
+              </label>
+              <button class="button button-primary" type="submit">
+                Send Message
+              </button>
+            </form>
           </div>
         </section>
       </main>
